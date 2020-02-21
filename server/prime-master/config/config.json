@@ -1,0 +1,10 @@
+{
+  "development": {
+    "username": "root",
+    "password": "48a48a48a",
+    "database": "prime",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "operatorsAliases": false
+  }
+}
