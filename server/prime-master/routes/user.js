@@ -5,6 +5,7 @@ var userController = require('../controllers/user.controller');
 router.get("/confirmEmail", userController.confirmEmail);
 router.get("/check", userController.check);
 router.get("/findEmail",userController.findEmail);
+router.get('/companyInfo', userController.companyInfo);
 
 router.post("/editProfile", userController.editProfile);
 router.post("/signup", userController.signUp);
@@ -13,6 +14,7 @@ router.post("/logout", userController.logout);
 router.post('/upload', userController.upload);
 router.post('/forgotPassword', userController.forgotPassword);
 router.post('/resetPassword', userController.resetPassword);
+router.get('/companyInfo', userController.companyInfo);
 module.exports = router;
 
 

@@ -62,11 +62,15 @@ exports.signUp = async function(req, res, next) {
       isAdmin: body.isAdmin,
       emailCode: emailCode
     }).then(result => {
-      console.log(result)
-      nodeMailer.sendMail(req, body.userEmail, emailCode)
+      console.log(body.isAdmin)
+      if(!body.isAdmin) {
+        nodeMailer.sendMail(req, body.userEmail, emailCode)
+      } else {
+        nodeMailer.sendAdminMail(req, body.userEmail, emailCode, body.companyCode)
+      }
       res.send(result);
     }).catch(err => {
-      console.log(err)
+      console.log("에러")
       res.send(err)
     });
   }
@@ -262,4 +266,14 @@ exports.upload = async function(req, res, next) {
     // console.log('경로 : ' + req.file.location) s3 업로드시 업로드 url을 가져옴
     return res.json({success:1});
   });
+}
+
+exports.companyInfo = async function(req, res, next) {
+  let result = await models.company.findOne(
+      { where: { code:req.query.code }}
+    ).then((comapny) => {
+      res.json(comapny)
+    }).catch((err) => {
+      console.log(err)
+  })
 }

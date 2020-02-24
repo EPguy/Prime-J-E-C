@@ -13,11 +13,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     location_x: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true,
+      defaultValue: null
     },
     location_y: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true,
+      defaultValue: null
     }
   });
   return company;

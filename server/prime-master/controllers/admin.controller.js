@@ -72,26 +72,24 @@ exports.JoinUsers = async function(req, res, next) {
 exports.create = async function(req, res, next) {
     const body = req.body;
     let companyCode = hCrypto.companyCode();
-    let userInfo = userController(req,res);
-    if(userInfo.isAdmin === true) {
-        let overlap;
-        do {
-            overlap = await models.company.findOne({
-                where: {
-                code: companyCode
-            }});
-        } while(overlap) {
-            companyCode = hCrypto.companyCode();
-            overlap = await models.company.findOne({
-                where: {
-                code: companyCode
-            }});
-        }
-    
-        if (overlap) {
-        res.status(404);
-        next();
-        } else {
+    let overlap;
+    do {
+        overlap = await models.company.findOne({
+            where: {
+            code: companyCode
+        }});
+    } while(overlap) {
+        companyCode = hCrypto.companyCode();
+        overlap = await models.company.findOne({
+            where: {
+            code: companyCode
+        }});
+    }
+
+    if (overlap) {
+    res.status(404);
+    next();
+    } else {
         let company = await models.company.create({
             code: companyCode,
             name: body.name,
@@ -99,19 +97,18 @@ exports.create = async function(req, res, next) {
             location_y: body.location_y,
         });
         let department = await models.departmentFolder.create({
-            name: body.name,
+            name: "기본",
             fno: 1,
             grpno: 1,
             grpord: 1,
             depth: 1,
             companyCode: companyCode
+        }).then(result => {
+            res.send(company);
+        }).catch(err => {
+            res.send(err);
         });
-        res.send({company, department});
-        }
-    } else {
-        return res.status(403).json({
-            message: "어드민이 아닙니다."
-        })
+        
     }
 };
 
